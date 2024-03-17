@@ -18,11 +18,20 @@ class Game:
         self.img_pos = [160, 260]
 
         self.movement = [False, False]
+
+        self.collision_area = pygame.Rect(50, 50, 300, 50)
     def run(self):        
         #our game's main loop
         while True:
             #filling the whole screen with a background color to also erase the previous render of the blit images onto the screen
             self.screen.fill((14, 219, 248))
+           
+            img_r = pygame.Rect(self.img_pos[0], self.img_pos[1], self.img.get_width(), self.img.get_height())
+            if img_r.colliderect(self.collision_area):
+                pygame.draw.rect(self.screen, (0, 100, 255), self.collision_area)
+            else:
+                pygame.draw.rect(self.screen, (0, 50, 155), self.collision_area)
+            
             #bool technically can be converted to integers implicitly
             #when self.movement[1] is True, self.movement[0] will be False and the image will move down
             #in the other case it will move up because will be 0 - 1 (False - True)
@@ -34,6 +43,8 @@ class Game:
             #in pygame a surface is basically just an image (the window itself has a surface which is the main one you render)
             #you can blit any surface onto another surface at a given location
             self.screen.blit(self.img, self.img_pos)
+
+            
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
